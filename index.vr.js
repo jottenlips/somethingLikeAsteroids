@@ -9,7 +9,11 @@ import { reducer } from "./redux/reducer.js";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 
+import socketIOClient from "socket.io-client";
+
 const store = createStore(reducer);
+
+const endpoint = "http://{SERVER_IP_ADDRESS}:4001";
 
 export default class PlanetPlutoVr extends React.Component {
 
