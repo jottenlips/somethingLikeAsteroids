@@ -3,7 +3,7 @@ import {
   AppRegistry,
 } from 'react-vr';
 import { reactotron } from "./reactotronconfig";
-import {compose, createStore} from "redux";
+import { compose } from "redux";
 import App from "./containers/app-container";
 import { reducer } from "./redux/reducer.js";
 import { Provider } from "react-redux";
