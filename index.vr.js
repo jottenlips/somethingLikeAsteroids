@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AppRegistry,
+  VrHeadModel,
 } from 'react-vr';
 import { reactotron } from "./reactotronconfig";
 import { compose } from "redux";
@@ -10,9 +11,16 @@ import { Provider } from "react-redux";
 
 const store = reactotron.createStore(reducer, compose());
 // const store = createStore(reducer);
+import socketIOClient from "socket.io-client";
+
+const store = createStore(reducer);
+
+const endpoint = process.env.SERVER_ENDPOINT;
+
 export default class PlanetPlutoVr extends React.Component {
 
     render() {
+
         return (
             <Provider store={store}>
                 <App/>
