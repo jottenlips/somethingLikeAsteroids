@@ -59,14 +59,21 @@ export default class Asteroid extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
-            this.setState(
-                () => ({
-                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
-                }),
-                () => {
-                    this.moveZ(duration--);
-                }
-            );
+            this.props.updateAsteroidZ(
+                {
+                    id: this.key,
+                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--)
+                });
+
+            this.moveZ(duration--);
+            // this.setState(
+            //     () => ({
+            //         z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
+            //     }),
+            //     () => {
+            //         this.moveZ(duration--);
+            //     }
+            // );
         });
     };
 

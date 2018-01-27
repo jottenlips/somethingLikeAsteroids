@@ -4,7 +4,15 @@ const defaultState = {
 
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case "UPDATE_ASTEROID_LOCATION":
+        case "UPDATE_ASTEROID_X":
+            return {
+                state
+            };
+        case "UPDATE_ASTEROID_Y":
+            return {
+                state
+            };
+        case "UPDATE_ASTEROID_Z":
             return {
                 state
             };
