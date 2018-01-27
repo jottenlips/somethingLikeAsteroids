@@ -2,7 +2,7 @@ import React from "react";
 import {View} from "react-native";
 import {AmbientLight, Pano, asset, AppRegistry} from "react-vr";
 
-import Laser from "./laser";
+import Asteroid from "./asteroid";
 
 
 export default class App extends React.Component {
@@ -11,7 +11,7 @@ export default class App extends React.Component {
         <View>
           <AmbientLight intensity={ 2.6 }  />
           <Pano source={asset('chess-world.jpg')}/>
-          <Laser/>
+          <Asteroid/>
         </View>
       );
     }
