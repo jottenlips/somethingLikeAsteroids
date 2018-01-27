@@ -24,6 +24,7 @@ export default class PlanetPlutoVr extends React.Component {
       <AmbientLight intensity={ 2.6 }  />
 
         <Pano source={asset('chess-world.jpg')}/>
+        
         <Sphere style={{ position: 'absolute', transform: [{translate: [-2, -0.5, -2]}, {rotateY: this.state.rotation}],
                layoutOrigin: [0.0, 0.0], color:"slateblue"}}
       />
