@@ -59,14 +59,23 @@ export default class Asteroid extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
+
+            if(isOutOfBoundsOfSphere()){
+
+                resetAsteroidPosition(() => moveZ());
+
+            } else {
+            
             this.setState(
-                () => ({
-                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
-                }),
-                () => {
-                    this.moveZ(duration--);
-                }
-            );
+                    () => ({
+                        z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
+                    }),
+                    () => {
+                        this.moveZ(duration);
+                    }
+                );
+
+            }
         });
     };
 
@@ -76,14 +85,22 @@ export default class Asteroid extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
+
+            if(isOutOfBoundsOfSphere()){
+
+                resetAsteroidPosition(() => moveX());
+
+            } else {
+           
             this.setState(
                 () => ({
                     z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
                 }),
                 () => {
-                    this.moveX(duration--);
+                    this.moveX(duration);
                 }
-            );
+              );
+            }
         });
     };
 
@@ -93,16 +110,37 @@ export default class Asteroid extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
-            this.setState(
-                () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
-                }),
-                () => {
-                    this.moveY(duration--);
-                }
-            );
+
+            if(isOutOfBoundsOfSphere()){
+
+                resetAsteroidPosition(() => moveY());
+
+            } else {
+          
+                this.setState(
+                    () => ({
+                        z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
+                    }),
+                    () => {
+                        this.moveY(duration);
+                    }
+                );
+            }
         });
     };
+
+    isOutOfBoundsOfSphere = () => {
+
+        if(this.state.inverseY==this.state.y || this.state.inverseX ==this.state.x|| this.state.inverseZ == this.state.z){
+            return true;
+        }
+
+    }
+
+    resetAsteroidPosition = (callback) => {
+        this.setState({x: new Animated.Value(-this.state.inverseX), y: new Animated.Value(-this.state.inverseY), z: new Animated.Value(-this.state.inverseZ)});
+        callback();
+    }
 
     render () {
         return (
