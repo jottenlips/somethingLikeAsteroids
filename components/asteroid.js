@@ -34,9 +34,9 @@ export default class Asteroid extends React.Component {
     }
 
     moveAsteroid() {
-        // this.moveZ();
-        // this.moveX();
-        // this.moveY();
+        this.moveZ();
+        this.moveX();
+        this.moveY();
     }
 
     componentWillUnmount() {
@@ -106,9 +106,10 @@ export default class Asteroid extends React.Component {
 
     render () {
         return (
-            <Animated.View style={ {transform: [{translateZ: this.state.z}]}}>
+            <Animated.View style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
                 <Model source={{ obj: asset(ASTEROID_ASSET_OBJ) }}
-                       style={{ position: 'absolute', layoutOrigin: [5.0, 5.0]}}
+                       style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}],
+                           layoutOrigin: [0.5, 0.5] }}
                        texture={asset("asteroid-texture.jpg")}/>
             </Animated.View>
         )
