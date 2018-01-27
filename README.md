@@ -1,3 +1,10 @@
+Install Homebrew
+Check if you have brew installled. `brew -v`
+
+If you do not, install brew.
+
+```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
+
 Install nvm (node version manager)
 Minimum nvm 0.33.2
 
