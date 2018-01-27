@@ -10,10 +10,7 @@ import { reducer } from "./redux/reducer.js";
 import { Provider } from "react-redux";
 
 const store = reactotron.createStore(reducer, compose());
-// const store = createStore(reducer);
 import socketIOClient from "socket.io-client";
-
-const store = createStore(reducer);
 
 const endpoint = process.env.SERVER_ENDPOINT;
 
