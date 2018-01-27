@@ -26,7 +26,7 @@ export default class App extends React.Component {
             asteroidValues.push({
                 x: coords.x,
                 y: coords.y,
-                z: cords.z,
+                z: coords.z,
                 speed: getRandomInt(10),
                 size: generateRandomSpeed()
             })
