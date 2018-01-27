@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text, TouchableWithoutFeedback } from "react-native";
 import { AmbientLight, Pano, asset, AppRegistry } from "react-vr";
 
 import { randomSphereCoordinate, generateRandomSpeed, getRandomInt } from "../helpers/number-util";
@@ -11,7 +11,8 @@ export default class App extends React.Component {
 
     constructor() {
         super();
-        this.generateAsteroids = this.generateAsteroids.bind(this);
+        generateAsteroids = this.generateAsteroids.bind(this);
+        gameIsReady = false;
     }
 
     generateAsteroids() {
@@ -40,15 +41,62 @@ export default class App extends React.Component {
             this.props.asteroidCreated(asteroid);
         });
 
-        return asteroids
+        return asteroids;
+    }
+
+    starterButtons() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                width: 2,
+                alignItems: 'stretch',
+                transform: [{translate: [-1, 1, -5]}],
+            }}>
+
+                <View style={{margin: 0.1, height: 0.4}}>
+                    <Text style={{fontSize: 0.3, textAlign: 'center', color: "#ffffff"}}>Something Like Asterioids</Text>
+                </View>
+
+                <TouchableWithoutFeedback onPress={this.isMultiplayer(false)}>
+                    <View style={{ margin: 0.1, height: 0.3, borderWidth: 0.1, borderColor: "#ffffff" }}>
+                        <Text style={{fontSize: 0.2, textAlign: 'center', color: "#ffffff"}}>1 Player</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={this.isMultiplayer(true)}>
+                    <View style={{ margin: 0.1, height: 0.3, borderWidth: 0.1, borderColor: "#ffffff" }}>
+                        <Text style={{fontSize: 0.2, textAlign: 'center', color: "#ffffff"}}>2+ Players</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                
+             </View>
+        );
+    }
+
+    isMultiplayer(bool) {
+        if (bool) {
+            this.setState({
+                gameIsReady : true
+            });
+        } else {
+            this.setState({
+                gameIsReady : false
+            });
+        }
+    }
+
+    startGame() {
+        this.generateAsteroids();
     }
 
     render() {
-      return (
+        const didPlayerDecide = this.gameIsReady ? this.startGame() : this.starterButtons(); 
+        return (
         <View>
           <AmbientLight intensity={ 2.6 }  />
           <Pano source={asset('chess-world.jpg')}/>
-            {this.generateAsteroids()}
+            {{didPlayerDecide}}
         </View>
       );
     }
