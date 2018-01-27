@@ -53,7 +53,7 @@ export default class Asteroid extends React.Component {
         this.frameHandle = requestAnimationFrame(this.rotate);
     }
 
-    moveZ = (duration = 50000) => {
+    moveZ = (duration = 5000) => {
         Animated.timing(this.state.z, {
             toValue: this.state.inverseZ,
             duration,
@@ -61,7 +61,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z+=this.state.speed : this.state.z-=this.state.speed),
+                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
                 }),
                 () => {
                     this.moveZ(duration--);
@@ -70,7 +70,7 @@ export default class Asteroid extends React.Component {
         });
     };
 
-    moveX = (duration = 50000) => {
+    moveX = (duration = 5000) => {
         Animated.timing(this.state.x, {
             toValue: this.state.inverseX,
             duration,
@@ -78,7 +78,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x+=this.state.speed : this.state.x-=this.state.speed),
+                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
                 }),
                 () => {
                     this.moveX(duration--);
@@ -87,7 +87,7 @@ export default class Asteroid extends React.Component {
         });
     };
 
-    moveY = (duration = 50000) => {
+    moveY = (duration = 5000) => {
         Animated.timing(this.state.y, {
             toValue: this.state.inverseY,
             duration,
@@ -95,7 +95,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y+=this.state.speed : this.state.y-=this.state.speed),
+                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
                 }),
                 () => {
                     this.moveY(duration--);
