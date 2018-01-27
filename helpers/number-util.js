@@ -3,14 +3,12 @@ export function getRandomInt(max) {
 }
 
 export function generateRandomSpeed() {
-    // returns 5-10
-    return getRandomInt(5) + 5;
+    return getRandomInt(200) + 50;
 }
 
 export function isNegative(num) {
 	return (num < 0);
 }
-
 
 export function randomSphereCoordinate(radius){
    const u = Math.random();

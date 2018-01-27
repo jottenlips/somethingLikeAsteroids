@@ -4,8 +4,7 @@ import Asteroid from "../components/asteroid";
 import { updateAsteroidX, updateAsteroidY, updateAsteroidZ } from "../redux/actions";
 
 const mapStateToProps = state => ({
-    // text: state.text,
-    // keyword: state.keyword
+
 });
 
 const mapDispatchToProps = dispatch => ({

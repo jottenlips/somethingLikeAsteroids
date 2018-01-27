@@ -26,6 +26,8 @@ export default class Asteroid extends React.Component {
         this.moveZ = this.moveZ.bind(this);
         this.moveX = this.moveX.bind(this);
         this.moveY = this.moveY.bind(this);
+        this.isOutOfBoundsOfSphere = this.isOutOfBoundsOfSphere.bind(this);
+        this.resetAsteroidPosition = this.resetAsteroidPosition.bind(this);
     }
 
     componentDidMount() {
@@ -44,7 +46,7 @@ export default class Asteroid extends React.Component {
             cancelAnimationFrame(this.frameHandle);
             this.frameHandle = null;
             }
-        }
+    }
 
     rotate() {
         const now = Date.now();
@@ -53,62 +55,96 @@ export default class Asteroid extends React.Component {
         this.frameHandle = requestAnimationFrame(this.rotate);
     }
 
-    moveZ = (duration = 50000) => {
+    moveZ = (duration = 5000) => {
         Animated.timing(this.state.z, {
             toValue: this.state.inverseZ,
             duration,
             easing: Easing.linear
         }).start(() => {
-            this.props.updateAsteroidZ(
-                {
-                    id: this.key,
-                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--)
-                });
 
-            this.moveZ(duration--);
-            // this.setState(
-            //     () => ({
-            //         z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
-            //     }),
-            //     () => {
-            //         this.moveZ(duration--);
-            //     }
-            // );
+            if(this.isOutOfBoundsOfSphere()){
+
+                this.setState(
+                    () => ({z: new Animated.Value(-this.state.inverseZ)}),
+                    () => {this.moveZ(duration)}
+                );
+
+            } else {
+                this.setState(
+                    () => ({
+                        z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
+                    }),
+                    () => {
+                        this.moveZ(duration);
+                    }
+                );
+            }
         });
     };
 
-    moveX = (duration = 50000) => {
+    moveX = (duration = 5000) => {
         Animated.timing(this.state.x, {
             toValue: this.state.inverseX,
             duration,
             easing: Easing.linear
         }).start(() => {
+
+            if(this.isOutOfBoundsOfSphere()){
+
+                this.setState(
+                    () => ({x: new Animated.Value(-this.state.inverseX)}),
+                    () => {this.moveX(duration)}
+                );
+
+            } else {
+           
             this.setState(
                 () => ({
                     z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
                 }),
                 () => {
-                    this.moveX(duration--);
+                    this.moveX(duration);
                 }
-            );
+              );
+            }
         });
     };
 
-    moveY = (duration = 50000) => {
+    moveY = (duration = 5000) => {
         Animated.timing(this.state.y, {
             toValue: this.state.inverseY,
             duration,
             easing: Easing.linear
         }).start(() => {
-            this.setState(
-                () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
-                }),
-                () => {
-                    this.moveY(duration--);
-                }
-            );
+
+            if(this.isOutOfBoundsOfSphere()){
+                this.setState(
+                    () => ({y: new Animated.Value(-this.state.inverseY)}),
+                    () => {this.moveY(duration)}
+                );
+            } else {
+                this.setState(
+                    () => ({
+                        z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
+                    }),
+                    () => {
+                        this.moveY(duration);
+                    }
+                );
+            }
         });
+    };
+
+    isOutOfBoundsOfSphere = () => {
+
+        if(this.state.inverseY === this.state.y._value || this.state.inverseX === this.state.x._value|| this.state.inverseZ === this.state.z._value){
+            return true;
+        }
+    };
+
+    resetAsteroidPosition = (callback) => {
+        this.setState({x: new Animated.Value(-this.state.inverseX), y: new Animated.Value(-this.state.inverseY), z: new Animated.Value(-this.state.inverseZ)});
+        callback();
     };
 
     render () {
