@@ -61,7 +61,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
+                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z+=this.state.speed : this.state.z-=this.state.speed),
                 }),
                 () => {
                     this.moveZ(duration--);
@@ -78,7 +78,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
+                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x+=this.state.speed : this.state.x-=this.state.speed),
                 }),
                 () => {
                     this.moveX(duration--);
@@ -95,7 +95,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
+                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y+=this.state.speed : this.state.y-=this.state.speed),
                 }),
                 () => {
                     this.moveY(duration--);
