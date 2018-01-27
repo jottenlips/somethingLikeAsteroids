@@ -1,110 +1,49 @@
-'use strict';
-
-/**
- * VideoSample360 displays a 360 video pano, along with a video control component.
- *
- * The video can be controlled by the video control component. To do this, a
- * MediaPlayerState is created and hooked to video and video control component.
- * See [MediaPlayerState](docs/mediaplayerstate.html)
- */
-
 import React from 'react';
 import {
-  asset,
   AppRegistry,
+  asset,
+  Pano,
+  Text,
   View,
   Sphere,
-  Mesh,
-  VrButton,
-  Image,
-  Text,
-  VideoPano,
-  VideoControl,
-  Scene,
-  MediaPlayerState,
+  AmbientLight,
 } from 'react-vr';
-import {video_scenes} from "./video_scenes";
 
 
-class VideoSample360 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      playerState: new MediaPlayerState({autoPlay: true, muted: true}), // init with muted, autoPlay
-      current_scene: "entry",   // the current scene
-      // videoSrc:[asset('video.webm', {format: 'webm', layout: 'SPHERE'})]
-    };
-  }
-// {
-//     // onChangeVideo(e){
-//     //   this.setState({videoSrc:[asset('video.mp4', {format: 'mp4', layout: 'SPHERE'})]})
-//     // }
-// }
 
+export default class PlanetPlutoVr extends React.Component {
 
-  getNavagtionBtns(){
-    let res=  video_scenes[this.state.current_scene].navigations.map((item, i )=>{
-      return(
-        <VrButton   key={i}
-                style={{
-                    layoutOrigin: [0.5, 0.5],
-                    transform: [{translate: item.translate},
-                                {rotateX: item.rotation[0]},
-                                {rotateY: item.rotation[1]},
-                                {rotateZ: item.rotation[2]}]
-                }}
-                onClick={ (e) =>{this.setState({current_scene: item.toward}); }}>
-
-                <VrButton
-                       style={{
-                          width: 0.15,
-                          height:0.15,
-                          borderRadius: 50,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderStyle: 'solid',
-                          borderColor: '#FFFFFF80',
-                          borderWidth: 0.01
-                       }}>
-                       <VrButton
-                              style={{ width: 0.1,
-                                     height:0.1,
-                                     borderRadius: 50,
-                                     backgroundColor: '#FFFFFFD9'
-                              }}>
-                       </VrButton>
-                </VrButton>
-
-        </VrButton>
-      )
-    });
-    console.dir(res)
-    return res;
-  }
+  constructor() { super(); this.state = { rotation: 130, }; this.lastUpdate = Date.now(); this.rotate = this.rotate.bind(this); } 
+  componentDidMount() { this.rotate(); } 
+  componentWillUnmount() { if (this.frameHandle) { cancelAnimationFrame(this.frameHandle); this.frameHandle = null; } } 
+  rotate() { const now = Date.now(); const delta = now - this.lastUpdate; this.lastUpdate = now; this.setState({ rotation: this.state.rotation + delta / 150 }); this.frameHandle = requestAnimationFrame(this.rotate); }
 
   render() {
     return (
       <View>
-        <VideoPano
-          playerState={this.state.playerState}
-          source={video_scenes[this.state.current_scene].src}
-        />
+      <AmbientLight intensity={ 2.6 }  />
 
-        {
-          this.getNavagtionBtns()
-        }
-        <VideoControl
-          style={{
-            height: 0.2,
-            width: 4,
-            layoutOrigin: [0.5, 0.5, 0],
-            transform: [{translate: [0, 0, -4]}],
-          }}
-          playerState={this.state.playerState}
-        />
+        <Pano source={asset('chess-world.jpg')}/>
+        <Sphere style={{ position: 'absolute', transform: [{translate: [-2, -0.5, -2]}, {rotateY: this.state.rotation}],
+               layoutOrigin: [0.0, 0.0], color:"slateblue"}}
+      />
+      <Sphere style={{ position: 'absolute', transform: [{translate: [5, -1, -10]}, {rotateY: this.state.rotation}],
+               layoutOrigin: [0.5, 0.5],color: "slategray", }}
+      />
+      <Sphere style={{ position: 'absolute', transform: [{translate: [-3, 4, -5]}, {rotateY: this.state.rotation}],
+               layoutOrigin: [0.0, 0.0], color: "thistle", }}
+      />
+
+
+
       </View>
+
+      
+        
+
+        
     );
   }
-}
+};
 
-AppRegistry.registerComponent('VideoSample360', () => VideoSample360);
+AppRegistry.registerComponent('PlanetPlutoVr', () => PlanetPlutoVr);
