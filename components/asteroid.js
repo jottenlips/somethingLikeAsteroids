@@ -1,5 +1,5 @@
 import React from "React";
-import { Model, asset, Animated } from "react-vr";
+import { Model, asset, Animated, VrHeadModel } from "react-vr";
 import { Easing } from "react-native";
 import { isNegative } from "../helpers/number-util"
 
@@ -21,7 +21,7 @@ export default class Asteroid extends React.Component {
             inverseY: -this.props.y,
             speed: this.props.speed
         };
-        console.log("asteroid props", this.props);
+        // console.log("asteroid props", this.props);
         this.rotate = this.rotate.bind(this);
         this.moveZ = this.moveZ.bind(this);
         this.moveX = this.moveX.bind(this);
@@ -102,7 +102,7 @@ export default class Asteroid extends React.Component {
            
             this.setState(
                 () => ({
-                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
+                    x: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
                 }),
                 () => {
                     this.moveX(duration);
@@ -127,7 +127,7 @@ export default class Asteroid extends React.Component {
             } else {
                 this.setState(
                     () => ({
-                        z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
+                        y: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
                     }),
                     () => {
                         this.moveY(duration);
@@ -150,6 +150,7 @@ export default class Asteroid extends React.Component {
     };
 
     render () {
+
         return (
             <Animated.View style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
                 <Model source={{ obj: asset(ASTEROID_ASSET_OBJ) }}

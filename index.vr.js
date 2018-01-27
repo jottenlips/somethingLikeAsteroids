@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AppRegistry,
+  VrHeadModel,
 } from 'react-vr';
 
 import App from "./containers/app-container";
@@ -18,6 +19,7 @@ const endpoint = process.env.SERVER_ENDPOINT;
 export default class PlanetPlutoVr extends React.Component {
 
     render() {
+
         return (
             <Provider store={store}>
                 <App/>
