@@ -3,7 +3,8 @@ export function getRandomInt(max) {
 }
 
 export function generateRandomSpeed() {
-    return getRandomInt(200) + 50;
+  //
+    return getRandomInt(40000) + 10000;
 }
 
 export function isNegative(num) {

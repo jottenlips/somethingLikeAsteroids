@@ -36,9 +36,9 @@ export default class Asteroid extends React.Component {
     }
 
     moveAsteroid() {
-        this.moveZ();
-        this.moveX();
-        this.moveY();
+        this.moveZ(this.props.speed);
+        this.moveX(this.props.speed);
+        this.moveY(this.props.speed);
     }
 
     componentWillUnmount() {
@@ -55,7 +55,7 @@ export default class Asteroid extends React.Component {
         this.frameHandle = requestAnimationFrame(this.rotate);
     }
 
-    moveZ = (duration = 5000) => {
+    moveZ = (duration) => {
         Animated.timing(this.state.z, {
             toValue: this.state.inverseZ,
             duration,
@@ -84,7 +84,7 @@ export default class Asteroid extends React.Component {
         });
     };
 
-    moveX = (duration = 5000) => {
+    moveX = (duration) => {
         Animated.timing(this.state.x, {
             toValue: this.state.inverseX,
             duration,
@@ -112,7 +112,7 @@ export default class Asteroid extends React.Component {
         });
     };
 
-    moveY = (duration = 5000) => {
+    moveY = (duration) => {
         Animated.timing(this.state.y, {
             toValue: this.state.inverseY,
             duration,
