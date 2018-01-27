@@ -26,6 +26,8 @@ export default class Asteroid extends React.Component {
         this.moveZ = this.moveZ.bind(this);
         this.moveX = this.moveX.bind(this);
         this.moveY = this.moveY.bind(this);
+        this.isOutOfBoundsOfSphere = this.isOutOfBoundsOfSphere.bind(this);
+        this.resetAsteroidPosition = this.resetAsteroidPosition.bind(this);
     }
 
     componentDidMount() {
@@ -60,9 +62,12 @@ export default class Asteroid extends React.Component {
             easing: Easing.linear
         }).start(() => {
 
-            if(isOutOfBoundsOfSphere()){
+            if(this.isOutOfBoundsOfSphere()){
 
-                resetAsteroidPosition(() => moveZ());
+                this.setState(
+                    () => ({z: new Animated.Value(-this.state.inverseZ)}),
+                    () => {this.moveZ(duration)}
+                );
 
             } else {
             
@@ -86,9 +91,12 @@ export default class Asteroid extends React.Component {
             easing: Easing.linear
         }).start(() => {
 
-            if(isOutOfBoundsOfSphere()){
+            if(this.isOutOfBoundsOfSphere()){
 
-                resetAsteroidPosition(() => moveX());
+                this.setState(
+                    () => ({x: new Animated.Value(-this.state.inverseX)}),
+                    () => {this.moveX(duration)}
+                );
 
             } else {
            
@@ -111,12 +119,12 @@ export default class Asteroid extends React.Component {
             easing: Easing.linear
         }).start(() => {
 
-            if(isOutOfBoundsOfSphere()){
-
-                resetAsteroidPosition(() => moveY());
-
+            if(this.isOutOfBoundsOfSphere()){
+                this.setState(
+                    () => ({y: new Animated.Value(-this.state.inverseY)}),
+                    () => {this.moveY(duration)}
+                );
             } else {
-          
                 this.setState(
                     () => ({
                         z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
@@ -131,16 +139,15 @@ export default class Asteroid extends React.Component {
 
     isOutOfBoundsOfSphere = () => {
 
-        if(this.state.inverseY==this.state.y || this.state.inverseX ==this.state.x|| this.state.inverseZ == this.state.z){
+        if(this.state.inverseY === this.state.y._value || this.state.inverseX === this.state.x._value|| this.state.inverseZ === this.state.z._value){
             return true;
         }
-
-    }
+    };
 
     resetAsteroidPosition = (callback) => {
         this.setState({x: new Animated.Value(-this.state.inverseX), y: new Animated.Value(-this.state.inverseY), z: new Animated.Value(-this.state.inverseZ)});
         callback();
-    }
+    };
 
     render () {
         return (
