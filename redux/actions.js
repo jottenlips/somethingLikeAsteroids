@@ -1,17 +1,24 @@
-export const updateAsteroidPosition = data => ({
+export const updateAsteroidX = data => ({
+    // data = {id, x}
+    type: "UPDATE_ASTEROID_X",
+    payload: data
 
-    // data = {
-    // id
-    // x
-    // y
-    // z
-    // }
+})
 
-    type: "UPDATE_ASTEROID_POSITION",
+;export const updateAsteroidY = data => ({
+    // data = {id, y}
+    type: "UPDATE_ASTEROID_Y",
+    payload: data
+
+})
+
+;export const updateAsteroidZ = data => ({
+    // data = {id, z}
+    type: "UPDATE_ASTEROID_Z",
     payload: data
 });
 
 export const asteroidCreated = asteroid => ({
     type: "ASTEROID_CREATED",
     payload: asteroid
-})
+});
