@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { AmbientLight, Pano, asset, AppRegistry } from "react-vr";
 
-import { generateRandomCoordinate, generateRandomSpeed, getRandomInt } from "../helpers/number-util";
+import { randomSphereCoordinate, generateRandomSpeed, getRandomInt } from "../helpers/number-util";
 
 import Asteroid from "../containers/asteroid-container";
 
@@ -15,21 +15,22 @@ export default class App extends React.Component {
     }
 
     generateAsteroids() {
-        const numberOfAsteroids = Math.random() * 100;
+        const numberOfAsteroids = Math.random() * 50;
         let asteroidValues = [];
         let asteroids = [];
 
         for (var i = 0; i < numberOfAsteroids; i++) {
+
+            const coords = randomSphereCoordinate(200);
+
             asteroidValues.push({
-                x: generateRandomCoordinate(),
-                y: generateRandomCoordinate(),
-                z: generateRandomCoordinate(),
-                speed: getRandomInt(3)+1,
-                size: 10
+                x: coords.x,
+                y: coords.y,
+                z: cords.z,
+                speed: getRandomInt(10),
+                size: generateRandomSpeed()
             })
         }
-
-        console.log(asteroidValues);
 
         asteroidValues.map((asteroid, index) => {
             asteroids.push(

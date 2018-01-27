@@ -2,6 +2,7 @@ import React from "React";
 import { Model, asset, Animated } from "react-vr";
 import { Easing } from "react-native";
 import { isNegative } from "../helpers/number-util"
+
 const ASTEROID_ASSET_OBJ = "asteroid.obj";
 
 export default class Asteroid extends React.Component {
