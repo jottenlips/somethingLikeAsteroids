@@ -1,4 +1,4 @@
-const updateAsteroidPosition = data => ({
+export const updateAsteroidPosition = data => ({
 
     // data = {
     // id
@@ -10,3 +10,8 @@ const updateAsteroidPosition = data => ({
     type: "UPDATE_ASTEROID_POSITION",
     payload: data
 });
+
+export const asteroidCreated = asteroid => ({
+    type: "ASTEROID_CREATED",
+    payload: asteroid
+})

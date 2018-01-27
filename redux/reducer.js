@@ -1,14 +1,16 @@
 const defaultState = {
-    text: "Tokyo",
-    keyword: "tokyo"
+    asteroids: []
 };
 
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case "UPDATE_ASTEROID_LOCATION":
             return {
-                text: action.payload.text,
-                keyword: action.payload.keyword
+                state
+            };
+        case "ASTEROID_CREATED":
+            return {
+                asteroids: state.asteroids.concat(action.payload)
             };
         default:
             return state;

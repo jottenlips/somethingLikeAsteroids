@@ -3,19 +3,21 @@ import {
   AppRegistry,
 } from 'react-vr';
 
-import App from "./app/app";
+import App from "./containers/app-container";
 
 import { reducer } from "./redux/reducer.js";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
-import { createStore, Provider } from "react-redux";
-
-// const store = createStore(reducer);
+const store = createStore(reducer);
 
 export default class PlanetPlutoVr extends React.Component {
 
     render() {
         return (
-            <App/>
+            <Provider store={store}>
+                <App/>
+            </Provider>
         )
     }
 };
