@@ -1,7 +1,7 @@
 import React from "React";
 import { Model, asset, Animated } from "react-vr";
 import { Easing } from "react-native";
-
+import { isNegative } from "../helpers/number-util"
 const ASTEROID_ASSET_OBJ = "asteroid.obj";
 
 export default class Asteroid extends React.Component {
@@ -10,21 +10,32 @@ export default class Asteroid extends React.Component {
         super(props);
 
         this.lastUpdate = Date.now();
-
         this.state = {
             rotation: 130,
             x: new Animated.Value(this.props.x),
             y: new Animated.Value(this.props.y),
             z: new Animated.Value(this.props.z),
+            inverseZ: -this.props.z,
+            inverseX: -this.props.x,
+            inverseY: -this.props.y,
             speed: this.props.speed
         };
         console.log("asteroid props", this.props);
         this.rotate = this.rotate.bind(this);
+        this.moveZ = this.moveZ.bind(this);
+        this.moveX = this.moveX.bind(this);
+        this.moveY = this.moveY.bind(this);
     }
 
     componentDidMount() {
         this.rotate();
-        this.vroom();
+        this.moveAsteroid();
+    }
+
+    moveAsteroid() {
+        // this.moveZ();
+        // this.moveX();
+        // this.moveY();
     }
 
     componentWillUnmount() {
@@ -41,22 +52,56 @@ export default class Asteroid extends React.Component {
         this.frameHandle = requestAnimationFrame(this.rotate);
     }
 
-    vroom = (duration = 5000) => {
+    moveZ = (duration = 5000) => {
         Animated.timing(this.state.z, {
-            toValue: 0,
+            toValue: this.state.inverseZ,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(this.state.z++),
+                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
                 }),
                 () => {
-                    this.vroom(duration--);
+                    this.moveZ(duration--);
                 }
             );
         });
-};
+    };
+
+    moveX = (duration = 5000) => {
+        Animated.timing(this.state.x, {
+            toValue: this.state.inverseX,
+            duration,
+            easing: Easing.linear
+        }).start(() => {
+            this.setState(
+                () => ({
+                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
+                }),
+                () => {
+                    this.moveX(duration--);
+                }
+            );
+        });
+    };
+
+    moveY = (duration = 5000) => {
+        Animated.timing(this.state.y, {
+            toValue: this.state.inverseY,
+            duration,
+            easing: Easing.linear
+        }).start(() => {
+            this.setState(
+                () => ({
+                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
+                }),
+                () => {
+                    this.moveY(duration--);
+                }
+            );
+        });
+    };
 
     render () {
         return (
