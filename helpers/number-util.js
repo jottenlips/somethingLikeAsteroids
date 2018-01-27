@@ -3,6 +3,8 @@ export function getRandomInt(max) {
 }
 
 export function generateRandomCoordinate() {
+
+	//needs 2 change
     return getRandomInt(400) - 200;
 }
 
