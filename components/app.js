@@ -1,6 +1,6 @@
 import React from "react";
-import { View } from "react-native";
-import { AmbientLight, Pano, asset, AppRegistry } from "react-vr";
+import { View, TouchableWithoutFeedback } from "react-native";
+import { AmbientLight, Pano, asset, AppRegistry,VrHeadModel } from "react-vr";
 
 import { randomSphereCoordinate, generateRandomSpeed, getRandomInt } from "../helpers/number-util";
 
@@ -12,6 +12,11 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.generateAsteroids = this.generateAsteroids.bind(this);
+         this.createLaser = this.createLaser.bind(this);
+    }
+
+    createLaser(rotationOfHeadMatrix) {
+        console.log(rotationOfHeadMatrix);
     }
 
     generateAsteroids() {
@@ -32,6 +37,8 @@ export default class App extends React.Component {
             })
         }
 
+
+
         asteroidValues.map((asteroid, index) => {
             asteroids.push(
                 <Asteroid x={asteroid.x} y={asteroid.y} z={asteroid.z}
@@ -46,9 +53,10 @@ export default class App extends React.Component {
     render() {
       return (
         <View>
-          <AmbientLight intensity={ 2.6 }  />
-          <Pano source={asset('chess-world.jpg')}/>
-            {this.generateAsteroids()}
+        {this.createLaser(VrHeadModel.rotationOfHeadMatrix())}
+              <AmbientLight intensity={ 2.6 }  />
+              <Pano source={asset('chess-world.jpg')}/>
+                {this.generateAsteroids()}
         </View>
       );
     }

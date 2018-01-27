@@ -128,7 +128,7 @@ export default class laser extends React.Component {
             } else {
                 this.setState(
                     () => ({
-                        y: new Animated.Value(this.props.directionY*this.state.speed*1000),
+                        y: new Animated.Value(this.props.directionY*1000*this.state.speed),
                     }),
                     () => {
                         this.moveY(duration);
