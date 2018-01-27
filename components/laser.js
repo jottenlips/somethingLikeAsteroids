@@ -128,7 +128,7 @@ export default class laser extends React.Component {
             } else {
                 this.setState(
                     () => ({
-                        y: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
+                        y: new Animated.Value(this.props.directionY*this.state.speed*1000),
                     }),
                     () => {
                         this.moveY(duration);
@@ -146,7 +146,7 @@ export default class laser extends React.Component {
     };
 
     resetlaserPosition = (callback) => {
-        this.setState({x: new Animated.Value(-this.state.inverseX), y: new Animated.Value(-this.state.inverseY), z: new Animated.Value(-this.state.inverseZ)});
+        this.setState({x: new Animated.Value(0), y: new Animated.Value(0), z: new Animated.Value(0)});
         callback();
     };
 
@@ -155,7 +155,7 @@ export default class laser extends React.Component {
     	console.log(VrHeadModel.rotationOfHeadMatrix());
 
         return (
-            <Animated.View style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
+            <Animated.View  style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
                 <Model source={{ obj: asset(laser_ASSET_OBJ) }}
                        style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}],
                            layoutOrigin: [0.5, 0.5] }}
