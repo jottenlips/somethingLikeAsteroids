@@ -1,7 +1,7 @@
 import React from "React";
 import { Model, asset, Animated } from "react-vr";
 import { Easing } from "react-native";
-
+import { isNegative } from "../helpers/number-util"
 const ASTEROID_ASSET_OBJ = "asteroid.obj";
 
 export default class Asteroid extends React.Component {
@@ -33,10 +33,9 @@ export default class Asteroid extends React.Component {
     }
 
     moveAsteroid() {
-        this.moveZ();
+        // this.moveZ();
         // this.moveX();
         // this.moveY();
-        console.log("Is this ok Noah?");
     }
 
     componentWillUnmount() {
@@ -61,7 +60,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(this.state.z++),
+                    z: new Animated.Value( isNegative(-this.state.inverseZ) ? this.state.z++ : this.state.z--),
                 }),
                 () => {
                     this.moveZ(duration--);
@@ -78,7 +77,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(this.state.x++),
+                    z: new Animated.Value(isNegative(-this.state.inverseX) ? this.state.x++ : this.state.x--),
                 }),
                 () => {
                     this.moveX(duration--);
@@ -95,7 +94,7 @@ export default class Asteroid extends React.Component {
         }).start(() => {
             this.setState(
                 () => ({
-                    z: new Animated.Value(this.state.y++),
+                    z: new Animated.Value(isNegative(-this.state.inverseY) ? this.state.y++ : this.state.y--),
                 }),
                 () => {
                     this.moveY(duration--);

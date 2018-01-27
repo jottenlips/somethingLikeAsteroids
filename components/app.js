@@ -15,7 +15,7 @@ export default class App extends React.Component {
     }
 
     generateAsteroids() {
-        const numberOfAsteroids = Math.random() * 10;
+        const numberOfAsteroids = Math.random() * 100;
         let asteroidValues = [];
         let asteroids = [];
 
@@ -28,6 +28,8 @@ export default class App extends React.Component {
                 size: 10
             })
         }
+
+        console.log(asteroidValues);
 
         asteroidValues.map((asteroid, index) => {
             asteroids.push(
