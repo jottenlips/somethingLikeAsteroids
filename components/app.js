@@ -27,7 +27,7 @@ export default class App extends React.Component {
                 x: coords.x,
                 y: coords.y,
                 z: coords.z,
-                speed: getRandomInt(10),
+                speed: generateRandomSpeed(),
                 size: generateRandomSpeed()
             })
         }
