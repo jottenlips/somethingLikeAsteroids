@@ -13,7 +13,7 @@ import socketIOClient from "socket.io-client";
 
 const store = createStore(reducer);
 
-const endpoint = "http://{SERVER_IP_ADDRESS}:4001";
+const endpoint = process.env.SERVER_ENDPOINT;
 
 export default class PlanetPlutoVr extends React.Component {
 

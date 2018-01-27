@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "dotenv": "^4.0.0",
     "ovrui": "~2.0.0",
     "react": "16.0.0",
     "react-native": "~0.48.0",
