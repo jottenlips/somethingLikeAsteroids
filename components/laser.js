@@ -16,14 +16,8 @@ export default class laser extends React.Component {
             x: new Animated.Value(this.props.x),
             y: new Animated.Value(this.props.y),
             z: new Animated.Value(this.props.z),
-            startingZ: 0,
-            startingX: 0,
-            startingY: 0,
             speed: 24
         };
-        this.directionZ = this.props.directionZ,
-        this.directionX = this.props.directionX,
-        this.directionY = this.props.directionY,
         this.moveZ = this.moveZ.bind(this);
         this.moveX = this.moveX.bind(this);
         this.moveY = this.moveY.bind(this);
@@ -62,26 +56,16 @@ export default class laser extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
-
-            if(this.isOutOfBoundsOfSphere()){
-
-                this.setState(
-                    () => ({z: new Animated.Value(this.props.speed)}),
-                    () => {this.moveZ(duration)}
-                );
-
-            } else {
-            
             this.setState(
                     () => ({
-                        z:  new Animated.Value(this.props.directionZ*this.state.speed*1000),
+                        z:  new Animated.Value(this.props.directionZ*this.state.speed*100),
                     }),
                     () => {
                         this.moveZ(duration);
                     }
                 );
 
-            }
+          
         });
     };
 
@@ -91,15 +75,6 @@ export default class laser extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
-
-            if(this.isOutOfBoundsOfSphere()){
-
-                this.setState(
-                    () => ({x: new Animated.Value(-this.state.inverseX)}),
-                    () => {this.moveX(duration)}
-                );
-
-            } else {
            
             this.setState(
                 () => ({
@@ -109,7 +84,6 @@ export default class laser extends React.Component {
                     this.moveX(duration);
                 }
               );
-            }
         });
     };
 
@@ -119,13 +93,6 @@ export default class laser extends React.Component {
             duration,
             easing: Easing.linear
         }).start(() => {
-
-            if(this.isOutOfBoundsOfSphere()){
-                this.setState(
-                    () => ({y: new Animated.Value(-this.state.inverseY)}),
-                    () => {this.moveY(duration)}
-                );
-            } else {
                 this.setState(
                     () => ({
                         y: new Animated.Value(this.props.directionY*1000*this.state.speed),
@@ -134,7 +101,6 @@ export default class laser extends React.Component {
                         this.moveY(duration);
                     }
                 );
-            }
         });
     };
 
@@ -157,9 +123,9 @@ export default class laser extends React.Component {
         return (
             <Animated.View  style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
                 <Model source={{ obj: asset(laser_ASSET_OBJ) }}
-                       style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}],
+                       style={{ position: 'absolute', transform: [{translate: [0, 0, -60]}],
                            layoutOrigin: [0.5, 0.5] }}
-                       texture={asset("laser-texture.jpg")}/>
+                       texture={asset("laser.jpg")}/>
             </Animated.View>
         )
     }

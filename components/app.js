@@ -6,6 +6,8 @@ import { randomSphereCoordinate, generateRandomSpeed, getRandomInt } from "../he
 
 import Asteroid from "../containers/asteroid-container";
 
+import Laser from "../containers/laser-container";
+
 
 export default class App extends React.Component {
 
@@ -15,9 +17,19 @@ export default class App extends React.Component {
          this.createLaser = this.createLaser.bind(this);
     }
 
-    createLaser(rotationOfHeadMatrix) {
+    createLaser(rotationOfHeadMatrix){
         console.log(rotationOfHeadMatrix);
+
+        const directionX = rotationOfHeadMatrix[0];
+        const directionY = rotationOfHeadMatrix[1];
+        const directionZ = rotationOfHeadMatrix[2];
+
+        return (
+            <Laser directionX={directionX} directionY={directionY} directionZ={directionZ}/>
+        )
+
     }
+
 
     generateAsteroids() {
         const numberOfAsteroids = Math.random() * 10;
@@ -52,8 +64,7 @@ export default class App extends React.Component {
 
     render() {
       return (
-        <View>
-        {this.createLaser(VrHeadModel.rotationOfHeadMatrix())}
+        <View onInput={() => this.createLaser(VrHeadModel.rotationOfHeadMatrix())}>
               <AmbientLight intensity={ 2.6 }  />
               <Pano source={asset('chess-world.jpg')}/>
                 {this.generateAsteroids()}
