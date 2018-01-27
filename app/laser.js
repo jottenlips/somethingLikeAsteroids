@@ -12,5 +12,4 @@ export default class Laser extends React.Component {
             <Box dimWidth={2} dimHeight={1} dimDepth={2} style={laserStyle}/>
         )
     }
-
 }
