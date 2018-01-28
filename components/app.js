@@ -123,8 +123,6 @@ export default class App extends React.Component {
               <AmbientLight intensity={ 2.6 } />
               <Pano source={asset('chess-world.jpg')}/>
                 {this.generateAsteroids()}
-              <Laser x={0} y={0} z={0}/>
-
         </View>
       );
     }
