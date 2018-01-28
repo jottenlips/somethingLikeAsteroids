@@ -9,6 +9,8 @@ import Asteroid from "../containers/asteroid-container";
 
 import Laser from "../containers/laser-container";
 
+import { isNegative } from "../helpers/number-util"
+
 
 export default class App extends React.Component {
 
@@ -24,9 +26,19 @@ export default class App extends React.Component {
 
         const rotationOfHeadMatrix = VrHeadModel.rotationOfHeadMatrix();
 
-        const directionX = rotationOfHeadMatrix[1];
-        const directionY = rotationOfHeadMatrix[0];
-        const directionZ = rotationOfHeadMatrix[2];
+        let directionX = (Number(Math.round(rotationOfHeadMatrix[1] +'e2')+'e-2')) ? (Number(Math.round(rotationOfHeadMatrix[1] +'e2')+'e-2')) : 0.0001; 
+        let directionY = (Number(Math.round(rotationOfHeadMatrix[0] +'e2')+'e-2')) ? (Number(Math.round(rotationOfHeadMatrix[0] +'e2')+'e-2')) : 0.0001;
+        let directionZ = (Number(Math.round(rotationOfHeadMatrix[2] +'e2')+'e-2')) ? (Number(Math.round(rotationOfHeadMatrix[2] +'e2')+'e-2')) : 0.0001;
+
+        if(isNegative(rotationOfHeadMatrix[1]) && directionX === "0.0001"){
+            directionX = -directionX;
+        }
+        if(isNegative(rotationOfHeadMatrix[0]) && directionY === "0.0001"){
+            directionY = -directionY;
+        }
+        if(isNegative(rotationOfHeadMatrix[2]) && directionZ === "0.0001"){
+            directionZ = -directionZ;
+        }
 
         if (eventType === "touchstart" || eventType === "keydown") {
             this.props.fireLaser({
@@ -36,6 +48,10 @@ export default class App extends React.Component {
             })
         }
     };
+
+    isNegative() {
+
+    }
 
 
     generateAsteroids() {
@@ -121,7 +137,7 @@ export default class App extends React.Component {
               <AmbientLight intensity={ 2.6 } />
               <Pano source={asset('chess-world.jpg')}/>
                 {this.generateAsteroids()}
-              <Laser x={0} y={0} z={0}/>
+              <Laser/>
 
         </View>
       );

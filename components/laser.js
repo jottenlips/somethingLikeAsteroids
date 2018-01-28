@@ -1,9 +1,16 @@
 import React from "React";
-import { Model, asset, Animated, VrHeadModel } from "react-vr";
+import { Model, asset, Animated, VrHeadModel, Sphere } from "react-vr";
 import { Easing } from "react-native";
 import { isNegative } from "../helpers/number-util"
 
 const laser_ASSET_OBJ = "laser.obj";
+
+
+// banana 
+// <Model source={{ obj: asset(laser_ASSET_OBJ) }}
+                       // style={{ position: 'absolute', transform: [{translate: [0, 0, -60]}],
+                           // layoutOrigin: [0.5, 0.5] }}
+                       // texture={asset("laser.jpg")}/>
 
 export default class laser extends React.Component {
     constructor(props) {
@@ -13,9 +20,9 @@ export default class laser extends React.Component {
         this.lastUpdate = Date.now();
         this.state = {
             rotation: 130,
-            x: new Animated.Value(this.props.x),
-            y: new Animated.Value(this.props.y),
-            z: new Animated.Value(this.props.z),
+            x: new Animated.Value(0),
+            y: new Animated.Value(0),
+            z: new Animated.Value(0),
             speed: 24
         };
         this.moveZ = this.moveZ.bind(this);
@@ -25,7 +32,7 @@ export default class laser extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.shouldFire) {
+        if (this.props.shouldFire && this.props.directionY !== 0 && this.props.directionZ !== 0 && this.props.directionX !== 0 ) {
             this.fireLaser()
         }
     }
@@ -34,9 +41,9 @@ export default class laser extends React.Component {
     }
 
     fireLaser = () => {
-        this.moveZ(1000);
-        this.moveX(1000);
-        this.moveY(1000);
+        this.moveZ(100, this.props.directionY, this.props.directionZ, this.props.directionX);
+        // this.moveX(100, this.props.directionY, this.props.directionZ, this.props.directionX);
+        // this.moveY(100, this.props.directionY, this.props.directionZ, this.props.directionX);
         this.props.laserDidFire();
     };
 
@@ -47,71 +54,80 @@ export default class laser extends React.Component {
         }
     }
 
-    moveZ = (duration) => {
+    moveZ = (duration, directionY, directionZ, directionX) => {
+
+    	console.log(`eulerX ${directionZ}`)
+    	console.log(`new z value ${-directionZ*1000+this.state.z._value}`)
+    	console.log(`final z ${directionZ*200}`)
+
+
+
         Animated.timing(this.state.z, {
-            toValue: 200 * this.props.directionZ,
+            toValue:  directionZ*20000,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                     () => ({
-                        z:  new Animated.Value((this.props.directionZ) * this.state.speed + this.state.z),
+                        z:  new Animated.Value((-directionZ*1000)+this.state.z._value),
                     }),
                     () => {
-                        this.moveZ(duration);
+
+                        this.moveZ(duration,directionY,directionZ,directionX);
                         this.props.laserDidFire();
                     }
                 );
-
-          
         });
     };
+     moveX = (duration, directionY, directionZ, directionX) => {
 
-    moveX = (duration) => {
         Animated.timing(this.state.x, {
-            toValue: 200 + this.props.directionX,
+            toValue:  directionX*100,
             duration,
             easing: Easing.linear
         }).start(() => {
-           
             this.setState(
-                () => ({
-                    x:  new Animated.Value((this.props.directionX) * this.state.speed + this.state.x),
-                }),
-                () => {
-                    this.moveX(duration);
-                    this.props.laserDidFire();
-
-                }
-              );
-        });
-    };
-
-    moveY = (duration) => {
-        Animated.timing(this.state.y, {
-            toValue: 200 * this.props.directionY,
-            duration,
-            easing: Easing.linear
-        }).start(() => {
-                this.setState(
                     () => ({
-                        y: new Animated.Value((this.props.directionY) * this.state.speed + this.state.y),
+                        x:  new Animated.Value(-directionX*1000+this.state.x._value),
                     }),
                     () => {
-                        this.moveY(duration);
+
+                        this.moveX(duration--,directionY,directionZ,directionX);
                         this.props.laserDidFire();
                     }
                 );
         });
     };
+
+    moveY = (duration, directionY, directionZ, directionX) => {
+
+        Animated.timing(this.state.y, {
+            toValue:  directionY*200,
+            duration,
+            easing: Easing.linear
+        }).start(() => {
+            this.setState(
+                    () => ({
+                        y:  new Animated.Value(-directionY*1000+this.state.y._value),
+                    }),
+                    () => {
+
+                        this.moveY(duration--,directionY,directionZ,directionX);
+                        this.props.laserDidFire();
+                    }
+                );
+        });
+    };
+
+
 
     render () {
         return (
             <Animated.View  style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
-                <Model source={{ obj: asset(laser_ASSET_OBJ) }}
-                       style={{ position: 'absolute', transform: [{translate: [0, 0, -60]}],
-                           layoutOrigin: [0.5, 0.5] }}
-                       texture={asset("laser.jpg")}/>
+            <Sphere style={{ position: 'absolute', transform: [{translate: [0, 0, 0]}, {rotateY: this.state.rotation}],
+               layoutOrigin: [0.0, 0.0], color:"slateblue"}}
+      />
+            
             </Animated.View>
         )
     }

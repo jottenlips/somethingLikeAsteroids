@@ -32,7 +32,7 @@ export default class Asteroid extends React.Component {
     componentDidMount() {
         this.rotate();
         this.moveAsteroid();
-        console.log("asteroid props", this.props);
+        // console.log("asteroid props", this.props);
     }
 
     moveAsteroid() {
@@ -135,7 +135,7 @@ export default class Asteroid extends React.Component {
 
     isOutOfBoundsOfSphere = () => {
 
-        console.log("props at bounds check", this.props);
+        // console.log("props at bounds check", this.props);
         if (this.props.x !== undefined && this.props.y !== undefined && this.props.z !== undefined) {
             return (this.state.inverseY === this.props.y._value || this.props.inverseX === this.props.x._value || this.props.inverseZ === this.state.z._value)
         }
