@@ -13,7 +13,7 @@ export default class Asteroid extends React.Component {
 
         this.lastUpdate = Date.now();
         this.state = {
-            rotation: 130,
+            rotation: 10000,
             x: new Animated.Value(this.props.x),
             y: new Animated.Value(this.props.y),
             z: new Animated.Value(this.props.z),
@@ -164,7 +164,7 @@ export default class Asteroid extends React.Component {
                 {() => !this.state.isDestroyed ?
                     (
                         <Model source={{ obj: asset(ASTEROID_ASSET_OBJ) }}
-                               style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}],
+                               style={{ position: 'absolute', transform: [{translate: [0, 0, 0]}],
                                    layoutOrigin: [0.5, 0.5] }}
                                texture={asset("asteroid-texture.jpg")}
                         />
@@ -173,7 +173,7 @@ export default class Asteroid extends React.Component {
                     :
 
                     (<Model source={{ obj: asset("laser.obj") }}
-                            style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}, { scale: 0.1} ],
+                            style={{ position: 'absolute', transform: [{translate: [0, 0, 0]}, { scale: 0.1}, {rotateY: this.state.rotation}, {rotateX: this.state.rotation}, {rotateZ: this.state.rotation} ],
                                 layoutOrigin: [0.5, 0.5] }}
                             texture={asset("laser.jpg")}
                     />)}
