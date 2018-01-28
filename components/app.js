@@ -78,13 +78,11 @@ export default class App extends React.Component {
 
     isMultiplayer(bool) {
         if (bool) {
-            console.log('2 player');
             this.setState({
                 gameIsReady : true,
                 isMultiplayer : true
             });
         } else {
-            console.log('1 player');
             this.setState({
                 gameIsReady : true,
                 isMultiplayer : false
@@ -93,7 +91,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        let firstView = null;
         if (this.state.gameIsReady) {
           return <Game generateAsteroids={()=>this.generateAsteroids()}/>;
         } else {
