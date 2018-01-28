@@ -89,9 +89,6 @@ export const reducer = (state = defaultState, action) => {
             return {
                 asteroids: state.asteroids,
                 shouldFireLaser: false,
-                laserDirectionX: 0,
-                laserDirectionY: 0,
-                laserDirectionZ: 0,
             };
         default:
             return state;

@@ -1,5 +1,5 @@
 import React from "React";
-import { Model, asset, Animated, VrHeadModel, Sphere } from "react-vr";
+import { Model, asset, Animated, VrHeadModel, Sphere, Box } from "react-vr";
 import { Easing } from "react-native";
 import { isNegative } from "../helpers/number-util"
 
@@ -29,6 +29,7 @@ export default class laser extends React.Component {
         this.moveX = this.moveX.bind(this);
         this.moveY = this.moveY.bind(this);
         this.fireLaser = this.fireLaser.bind(this);
+
     }
 
     componentDidUpdate() {
@@ -38,12 +39,17 @@ export default class laser extends React.Component {
     }
 
     componentDidMount() {
+
+    	 // if (this.props.shouldFire && this.props.directionY !== 0 && this.props.directionZ !== 0 && this.props.directionX !== 0 ) {
+            // this.fireLaser()
+        // }
+
     }
 
     fireLaser = () => {
-        this.moveZ(100, this.props.directionY, this.props.directionZ, this.props.directionX);
-        // this.moveX(100, this.props.directionY, this.props.directionZ, this.props.directionX);
-        // this.moveY(100, this.props.directionY, this.props.directionZ, this.props.directionX);
+        this.moveZ(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
+        this.moveX(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
+        this.moveY(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
         this.props.laserDidFire();
     };
 
@@ -54,32 +60,31 @@ export default class laser extends React.Component {
         }
     }
 
-    moveZ = (duration, directionY, directionZ, directionX) => {
-
-    	console.log(`eulerX ${directionZ}`)
-    	console.log(`new z value ${-directionZ*1000+this.state.z._value}`)
-    	console.log(`final z ${directionZ*200}`)
-
+    moveZ = (duration, directionY, directionZ, directionX, newZ) => {
 
 
         Animated.timing(this.state.z, {
-            toValue:  directionZ*20000,
+            toValue:  directionZ*100,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                     () => ({
-                        z:  new Animated.Value((-directionZ*1000)+this.state.z._value),
+                        z:  (Math.abs(newZ)>10) ? Animated.Value(0) : new Animated.Value(newZ--),
                     }),
                     () => {
 
-                        this.moveZ(duration,directionY,directionZ,directionX);
-                        this.props.laserDidFire();
+
+
+                    	(Math.abs(newZ)>=10) ? this.moveZ(duration,directionY,directionZ,directionX,0) : this.moveZ(duration,directionY,directionZ,directionX,newZ--)
+                      	
                     }
                 );
         });
     };
-     moveX = (duration, directionY, directionZ, directionX) => {
+
+    moveX = (duration, directionY, directionZ, directionX, newX) => {
+
 
         Animated.timing(this.state.x, {
             toValue:  directionX*100,
@@ -88,45 +93,60 @@ export default class laser extends React.Component {
         }).start(() => {
             this.setState(
                     () => ({
-                        x:  new Animated.Value(-directionX*1000+this.state.x._value),
+                        x:  (Math.abs(newX)>10) ? Animated.Value(0) : new Animated.Value(newX--),
                     }),
                     () => {
 
-                        this.moveX(duration--,directionY,directionZ,directionX);
-                        this.props.laserDidFire();
+   
+
+
+                    	(Math.abs(newX)>=10) ? this.moveX(duration,directionY,directionZ,directionX,0) : this.moveX(duration,directionY,directionZ,directionX,newX--)
+                      	
                     }
                 );
         });
     };
 
-    moveY = (duration, directionY, directionZ, directionX) => {
+    moveY = (duration, directionY, directionZ, directionX, newY) => {
 
         Animated.timing(this.state.y, {
-            toValue:  directionY*200,
+            toValue:  directionY*100,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                     () => ({
-                        y:  new Animated.Value(-directionY*1000+this.state.y._value),
+                        y:  (Math.abs(newY)>10) ? Animated.Value(0) : new Animated.Value(newY--),
                     }),
                     () => {
 
-                        this.moveY(duration--,directionY,directionZ,directionX);
-                        this.props.laserDidFire();
+                    	(Math.abs(newY)>=10) ? this.moveY(duration,directionY,directionZ,directionX,0) : this.moveY(duration,directionY,directionZ,directionX,newY--)
+                      	
                     }
                 );
         });
     };
+
+
+
+    // isOutOfBoundsOfSphere = (directionY, directionZ, directionX) => {
+
+    //     // console.log("props at bounds check", this.props);
+    //     if (this.props.x !== undefined && this.props.y !== undefined && this.props.z !== undefined) {
+    //         return (Math.cos(directionY)*100 < this.state.y._value || Math.cos(directionX)*100 < this.state.x._value || Math.cos(directionZ)*100 < this.state.z._value)
+    //     }
+    // };
 
 
 
     render () {
         return (
             <Animated.View  style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
-            <Sphere style={{ position: 'absolute', transform: [{translate: [0, 0, 0]}, {rotateY: this.state.rotation}],
-               layoutOrigin: [0.0, 0.0], color:"slateblue"}}
-      />
+            <Box style={{ position: 'absolute', transform: [{translate: [0, 0, 0]}, {rotateY: this.state.rotation}],
+               layoutOrigin: [0.0, 0.0], color:"green"}}
+      dimWidth={0.1}
+  dimDepth={0.1}
+  dimHeight={0.1}/>
             
             </Animated.View>
         )

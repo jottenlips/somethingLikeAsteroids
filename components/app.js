@@ -26,27 +26,17 @@ export default class App extends React.Component {
 
         const rotationOfHeadMatrix = VrHeadModel.rotationOfHeadMatrix();
 
-        let directionX = (Number(Math.round(rotationOfHeadMatrix[1] +'e2')+'e-2')) ? (Number(Math.round(rotationOfHeadMatrix[1] +'e2')+'e-2')) : 0.0001; 
-        let directionY = (Number(Math.round(rotationOfHeadMatrix[0] +'e2')+'e-2')) ? (Number(Math.round(rotationOfHeadMatrix[0] +'e2')+'e-2')) : 0.0001;
-        let directionZ = (Number(Math.round(rotationOfHeadMatrix[2] +'e2')+'e-2')) ? (Number(Math.round(rotationOfHeadMatrix[2] +'e2')+'e-2')) : 0.0001;
+        let directionX = rotationOfHeadMatrix[1];
+        let directionY = rotationOfHeadMatrix[0];
+        let directionZ = rotationOfHeadMatrix[2]; 
 
-        if(isNegative(rotationOfHeadMatrix[1]) && directionX === "0.0001"){
-            directionX = -directionX;
-        }
-        if(isNegative(rotationOfHeadMatrix[0]) && directionY === "0.0001"){
-            directionY = -directionY;
-        }
-        if(isNegative(rotationOfHeadMatrix[2]) && directionZ === "0.0001"){
-            directionZ = -directionZ;
-        }
-
-        if (eventType === "touchstart" || eventType === "keydown") {
+        // if (eventType === "touchstart" || eventType === "keydown") {
             this.props.fireLaser({
                 x: directionX,
                 y: directionY,
                 z: directionZ
             })
-        }
+        // }
     };
 
     isNegative() {
@@ -134,6 +124,7 @@ export default class App extends React.Component {
     render() {
       return (
         <View onInput={this.prepareTheLaser}>
+        
               <AmbientLight intensity={ 2.6 } />
               <Pano source={asset('chess-world.jpg')}/>
                 {this.generateAsteroids()}
