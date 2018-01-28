@@ -11,11 +11,10 @@ export default class Game extends React.Component {
 
     render() {
         return (
-            <View onInput={this.prepareTheLaser}>
+            <View >
               <AmbientLight intensity={ 2.6 } />
               <Pano source={asset('chess-world.jpg')}/>
               {this.props.generateAsteroids()}
-              <Laser x={0} y={0} z={0}/>
             </View>
         );
     }

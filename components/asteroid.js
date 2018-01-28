@@ -50,6 +50,19 @@ export default class Asteroid extends React.Component {
             }
     }
 
+    checkForCollision() {
+        console.log("checking for collision");
+        if (this.state.x._value < 10 && this.state.x._value > -10 && !this.state.isDestroyed) {
+            this.props.playerCollisionDetected();
+        } else if (this.state.x._value < 10 && this.state.x._value > -10 && !this.state.isDestroyed) {
+            this.props.playerCollisionDetected();
+        } else if (this.state.y._value < 10 && this.state.y._value > -10 && !this.state.isDestroyed) {
+            this.props.playerCollisionDetected();
+        } else if (this.state.z._value < 10 && this.state.z._value > -10 && !this.state.isDestroyed) {
+            this.props.playerCollisionDetected();
+        }
+    }
+
     rotate() {
         const now = Date.now();
         const delta = now - this.lastUpdate;
@@ -67,7 +80,7 @@ export default class Asteroid extends React.Component {
 
                 this.setState(
                     () => ({z: new Animated.Value(-this.state.inverseZ)}),
-                    () => {this.moveZ(duration)}
+                    () => {this.checkForCollision(); this.moveZ(duration);}
                 );
 
             } else {

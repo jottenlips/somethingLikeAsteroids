@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import Asteroid from "../components/asteroid";
 
-import { updateAsteroidX, updateAsteroidY, updateAsteroidZ } from "../redux/actions";
+import {playerCollisionDetected, updateAsteroidX, updateAsteroidY, updateAsteroidZ} from "../redux/actions";
 
 const mapStateToProps = (state, ownProps) => ({
     x: state.asteroids[ownProps.index].x,
@@ -14,7 +14,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
     updateAsteroidX: data => dispatch(updateAsteroidX(data)),
     updateAsteroidY: data => dispatch(updateAsteroidY(data)),
-    updateAsteroidZ: data => dispatch(updateAsteroidZ(data))
+    updateAsteroidZ: data => dispatch(updateAsteroidZ(data)),
+    playerCollisionDetected: data => dispatch(playerCollisionDetected(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Asteroid);

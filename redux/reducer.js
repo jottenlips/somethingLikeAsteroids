@@ -3,7 +3,8 @@ const defaultState = {
     shouldFireLaser: false,
     laserDirectionX: 0,
     laserDirectionY: 0,
-    laserDirectionZ: 0
+    laserDirectionZ: 0,
+    playerHealth: 100
 };
 
 export const reducer = (state = defaultState, action) => {
@@ -93,6 +94,9 @@ export const reducer = (state = defaultState, action) => {
                 laserDirectionY: 0,
                 laserDirectionZ: 0,
             };
+        case "PLAYER_COLLISION_DETECTED":
+            state.merge({playerHealth: state.playerHealth - 10});
+            break;
         default:
             return state;
     }
