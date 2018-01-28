@@ -19,8 +19,6 @@ export default class laser extends React.Component {
             speed: 24
         };
         this.moveZ = this.moveZ.bind(this);
-        this.moveX = this.moveX.bind(this);
-        this.moveY = this.moveY.bind(this);
         this.fireLaser = this.fireLaser.bind(this);
     }
 
@@ -34,9 +32,7 @@ export default class laser extends React.Component {
     }
 
     fireLaser = () => {
-        this.moveZ(1000);
-        this.moveX(1000);
-        this.moveY(1000);
+        this.moveZ(10);
         this.props.laserDidFire();
     };
 
@@ -48,62 +44,24 @@ export default class laser extends React.Component {
     }
 
     moveZ = (duration) => {
+        console.log(this.state.z._value);
         Animated.timing(this.state.z, {
-            toValue: 200 * this.props.directionZ,
+            toValue: this.props.z -200 * this.props.directionZ,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                     () => ({
-                        z:  new Animated.Value((this.props.directionZ) * this.state.speed + this.state.z),
+                        z:  new Animated.Value(this.state.z._value + 10)
+                        //z:  isNegative(this.state.z._value) ? new Animated.Value(this.state.z._value + 100) : new Animated.Value(this.state.z._value - 100),
                     }),
                     () => {
                         this.moveZ(duration);
-                        this.props.laserDidFire();
-                    }
-                );
-
-          
-        });
-    };
-
-    moveX = (duration) => {
-        Animated.timing(this.state.x, {
-            toValue: 200 + this.props.directionX,
-            duration,
-            easing: Easing.linear
-        }).start(() => {
-           
-            this.setState(
-                () => ({
-                    x:  new Animated.Value((this.props.directionX) * this.state.speed + this.state.x),
-                }),
-                () => {
-                    this.moveX(duration);
-                    this.props.laserDidFire();
-
-                }
-              );
-        });
-    };
-
-    moveY = (duration) => {
-        Animated.timing(this.state.y, {
-            toValue: 200 * this.props.directionY,
-            duration,
-            easing: Easing.linear
-        }).start(() => {
-                this.setState(
-                    () => ({
-                        y: new Animated.Value((this.props.directionY) * this.state.speed + this.state.y),
-                    }),
-                    () => {
-                        this.moveY(duration);
-                        this.props.laserDidFire();
                     }
                 );
         });
     };
+
 
     render () {
         return (
