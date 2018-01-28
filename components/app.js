@@ -91,7 +91,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        const didPlayerDecide = this.gameIsReady ? this.startGame() : this.starterButtons(); 
         return (
         <View>
           <AmbientLight intensity={ 2.6 }  />
