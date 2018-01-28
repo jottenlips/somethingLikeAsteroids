@@ -29,8 +29,6 @@ export default class App extends React.Component {
         const directionZ = rotationOfHeadMatrix[2];
 
         if (eventType === "touchstart" || eventType === "keydown") {
-
-            console.log("laser prepared");
             this.props.fireLaser({
                 x: directionX,
                 y: directionY,

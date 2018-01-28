@@ -34,9 +34,9 @@ export default class laser extends React.Component {
     }
 
     fireLaser = () => {
-        this.moveZ(2400);
-        this.moveX(2400);
-        this.moveY(2400);
+        this.moveZ(1000);
+        this.moveX(1000);
+        this.moveY(1000);
         this.props.laserDidFire();
     };
 
@@ -49,13 +49,13 @@ export default class laser extends React.Component {
 
     moveZ = (duration) => {
         Animated.timing(this.state.z, {
-            toValue: 200,
+            toValue: 200 * this.props.directionZ,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                     () => ({
-                        z:  new Animated.Value(this.props.directionZ*this.state.speed*100),
+                        z:  new Animated.Value((this.props.directionZ) * this.state.speed + this.state.z),
                     }),
                     () => {
                         this.moveZ(duration);
@@ -69,14 +69,14 @@ export default class laser extends React.Component {
 
     moveX = (duration) => {
         Animated.timing(this.state.x, {
-            toValue: 200,
+            toValue: 200 + this.props.directionX,
             duration,
             easing: Easing.linear
         }).start(() => {
            
             this.setState(
                 () => ({
-                    x:  new Animated.Value(this.props.directionX*this.state.speed*1000),
+                    x:  new Animated.Value((this.props.directionX) * this.state.speed + this.state.x),
                 }),
                 () => {
                     this.moveX(duration);
@@ -89,13 +89,13 @@ export default class laser extends React.Component {
 
     moveY = (duration) => {
         Animated.timing(this.state.y, {
-            toValue: this.state.inverseY,
+            toValue: 200 * this.props.directionY,
             duration,
             easing: Easing.linear
         }).start(() => {
                 this.setState(
                     () => ({
-                        y: new Animated.Value(this.props.directionY*1000*this.state.speed),
+                        y: new Animated.Value((this.props.directionY) * this.state.speed + this.state.y),
                     }),
                     () => {
                         this.moveY(duration);
