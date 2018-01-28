@@ -6,6 +6,13 @@ const defaultState = {
     laserDirectionZ: 0
 };
 
+const socketIO = require('socket.io');
+const http = require('http');
+const app = express();
+
+const server = http.createServer(app);
+const io = socketIO.listen(server);
+
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case "UPDATE_ASTEROID_X":

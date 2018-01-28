@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start":"node server.js",
+    "start": "node server.js",
     "start-local": "node -e \"console.log('open browser at http://localhost:8081/vr/\\n\\n');\" && node node_modules/react-native/local-cli/cli.js start",
     "bundle": "node node_modules/react-vr/scripts/bundle.js",
     "open": "node -e \"require('xopen')('http://localhost:8081/vr/')\"",
@@ -21,6 +21,7 @@
     "react-vr-web": "~2.0.0",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-socket.io-middleware": "^1.0.4",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "three": "^0.87.0"

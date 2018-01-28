@@ -23,27 +23,6 @@ export default class App extends React.Component {
         generateAsteroids = this.generateAsteroids.bind(this);
     }
 
-    prepareTheLaser = (e) => {
-
-        const { eventType } = e.nativeEvent.inputEvent;
-
-        const rotationOfHeadMatrix = VrHeadModel.rotationOfHeadMatrix();
-
-        const directionX = rotationOfHeadMatrix[1];
-        const directionY = rotationOfHeadMatrix[0];
-        const directionZ = rotationOfHeadMatrix[2];
-
-        if (eventType === "touchstart" || eventType === "keydown") {
-
-            console.log("laser prepared");
-            this.props.fireLaser({
-                x: directionX,
-                y: directionY,
-                z: directionZ
-            })
-        }
-    };
-
 
     generateAsteroids() {
         const numberOfAsteroids = Math.random() * 10;
@@ -76,29 +55,24 @@ export default class App extends React.Component {
         return asteroids;
     }
 
-    isMultiplayer(bool) {
-        if (bool) {
-            console.log('2 player');
-            this.setState({
-                gameIsReady : true,
-                isMultiplayer : true
-            });
-        } else {
-            console.log('1 player');
-            this.setState({
-                gameIsReady : true,
-                isMultiplayer : false
-            });
-        }
-    }
+    // //isMultiplayer(bool) {
+    //    if (bool) {
+    //       console.log('2 player');
+    //        this.setState({
+    //            gameIsReady : true,
+    //            isMultiplayer : true
+    //        });
+    //    } else {
+    //        console.log('1 player');
+    //       this.setState({
+    //            gameIsReady : true,
+    //            isMultiplayer : false
+    //       });
+    //   }
+    // }
 
     render() {
-        let firstView = null;
-        if (this.state.gameIsReady) {
-          return <Game generateAsteroids={()=>this.generateAsteroids()}/>;
-        } else {
-          return <FirstScreen isMultiplayer={(bool) => this.isMultiplayer(bool)}/>
-        }
+        return <Game generateAsteroids={()=>this.generateAsteroids()}/>;
     }
 }
 
