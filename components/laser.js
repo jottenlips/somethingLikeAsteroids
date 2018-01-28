@@ -21,33 +21,30 @@ export default class laser extends React.Component {
         this.moveZ = this.moveZ.bind(this);
         this.moveX = this.moveX.bind(this);
         this.moveY = this.moveY.bind(this);
-        this.isOutOfBoundsOfSphere = this.isOutOfBoundsOfSphere.bind(this);
-        this.resetlaserPosition = this.resetlaserPosition.bind(this);
+        this.fireLaser = this.fireLaser.bind(this);
+    }
+
+    componentDidUpdate() {
+        if (this.props.shouldFire) {
+            this.fireLaser()
+        }
     }
 
     componentDidMount() {
-        this.rotate();
-        this.shootlaser();
     }
 
-    shootlaser() {
+    fireLaser = () => {
         this.moveZ(2400);
         this.moveX(2400);
         this.moveY(2400);
-    }
+        this.props.laserDidFire();
+    };
 
     componentWillUnmount() {
         if (this.frameHandle) {
             cancelAnimationFrame(this.frameHandle);
             this.frameHandle = null;
-            }
         }
-
-    rotate() {
-        const now = Date.now();
-        const delta = now - this.lastUpdate;
-        this.lastUpdate = now; this.setState({ rotation: this.state.rotation + delta / 150 });
-        this.frameHandle = requestAnimationFrame(this.rotate);
     }
 
     moveZ = (duration) => {
@@ -62,6 +59,7 @@ export default class laser extends React.Component {
                     }),
                     () => {
                         this.moveZ(duration);
+                        this.props.laserDidFire();
                     }
                 );
 
@@ -82,6 +80,8 @@ export default class laser extends React.Component {
                 }),
                 () => {
                     this.moveX(duration);
+                    this.props.laserDidFire();
+
                 }
               );
         });
@@ -99,27 +99,13 @@ export default class laser extends React.Component {
                     }),
                     () => {
                         this.moveY(duration);
+                        this.props.laserDidFire();
                     }
                 );
         });
     };
 
-    isOutOfBoundsOfSphere = () => {
-
-        if(this.state.inverseY === this.state.y._value || this.state.inverseX === this.state.x._value|| this.state.inverseZ === this.state.z._value){
-            return true;
-        }
-    };
-
-    resetlaserPosition = (callback) => {
-        this.setState({x: new Animated.Value(0), y: new Animated.Value(0), z: new Animated.Value(0)});
-        callback();
-    };
-
     render () {
-
-    	console.log(VrHeadModel.rotationOfHeadMatrix());
-
         return (
             <Animated.View  style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
                 <Model source={{ obj: asset(laser_ASSET_OBJ) }}

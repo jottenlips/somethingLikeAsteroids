@@ -14,21 +14,28 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.generateAsteroids = this.generateAsteroids.bind(this);
-         this.createLaser = this.createLaser.bind(this);
     }
 
-    createLaser(rotationOfHeadMatrix){
-        console.log(rotationOfHeadMatrix);
+    prepareTheLaser = (e) => {
 
-        const directionX = rotationOfHeadMatrix[0];
-        const directionY = rotationOfHeadMatrix[1];
+        const { eventType } = e.nativeEvent.inputEvent;
+
+        const rotationOfHeadMatrix = VrHeadModel.rotationOfHeadMatrix();
+
+        const directionX = rotationOfHeadMatrix[1];
+        const directionY = rotationOfHeadMatrix[0];
         const directionZ = rotationOfHeadMatrix[2];
 
-        return (
-            <Laser directionX={directionX} directionY={directionY} directionZ={directionZ}/>
-        )
+        if (eventType === "touchstart" || eventType === "keydown") {
 
-    }
+            console.log("laser prepared");
+            this.props.fireLaser({
+                x: directionX,
+                y: directionY,
+                z: directionZ
+            })
+        }
+    };
 
 
     generateAsteroids() {
@@ -64,10 +71,11 @@ export default class App extends React.Component {
 
     render() {
       return (
-        <View onInput={() => this.createLaser(VrHeadModel.rotationOfHeadMatrix())}>
-              <AmbientLight intensity={ 2.6 }  />
+        <View onInput={this.prepareTheLaser}>
+              <AmbientLight intensity={ 2.6 } />
               <Pano source={asset('chess-world.jpg')}/>
                 {this.generateAsteroids()}
+              <Laser x={0} y={0} z={0}/>
         </View>
       );
     }

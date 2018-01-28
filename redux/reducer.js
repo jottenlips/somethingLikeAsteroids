@@ -1,5 +1,9 @@
 const defaultState = {
-    asteroids: []
+    asteroids: [],
+    shouldFireLaser: false,
+    laserDirectionX: 0,
+    laserDirectionY: 0,
+    laserDirectionZ: 0
 };
 
 export const reducer = (state = defaultState, action) => {
@@ -72,6 +76,22 @@ export const reducer = (state = defaultState, action) => {
         case "ASTEROID_CREATED":
             return {
                 asteroids: state.asteroids.concat(action.payload)
+            };
+        case "FIRE_LASER":
+            return {
+                asteroids: state.asteroids,
+                shouldFireLaser: true,
+                laserDirectionX: action.payload.x,
+                laserDirectionY: action.payload.y,
+                laserDirectionZ: action.payload.z,
+            };
+        case "LASER_DID_FIRE":
+            return {
+                asteroids: state.asteroids,
+                shouldFireLaser: false,
+                laserDirectionX: 0,
+                laserDirectionY: 0,
+                laserDirectionZ: 0,
             };
         default:
             return state;
