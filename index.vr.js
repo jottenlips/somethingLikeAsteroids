@@ -26,4 +26,4 @@ export default class PlanetPlutoVr extends React.Component {
     }
 };
 
-AppRegistry.registerComponent('PlanetPlutoVr', () => PlanetPlutoVr);
+AppRegistry.registerComponent('Something Like Asteroids', () => PlanetPlutoVr);
