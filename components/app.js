@@ -95,7 +95,7 @@ export default class App extends React.Component {
         <View>
           <AmbientLight intensity={ 2.6 }  />
           <Pano source={asset('chess-world.jpg')}/>
-            {{didPlayerDecide}}
+            {this.generateAsteroids()}
         </View>
       );
     }
