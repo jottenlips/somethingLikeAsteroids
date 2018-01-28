@@ -32,3 +32,8 @@ export const laserDidFire = () => ({
     type: "LASER_DID_FIRE",
     payload: {}
 });
+
+export const playerCollisionDetected = () => ({
+    type: "PLAYER_COLLISION_DETECTED",
+    payload: {}
+});
