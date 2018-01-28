@@ -1,21 +1,26 @@
 import React from "react";
-import { View, TouchableWithoutFeedback } from "react-native";
-import { AmbientLight, Pano, asset, AppRegistry,VrHeadModel } from "react-vr";
+import { View, Text } from "react-native";
+import { asset, AppRegistry, VrHeadModel, VrButton } from "react-vr";
+import { PropTypes } from 'prop-types';
 
 
 import { randomSphereCoordinate, generateRandomSpeed, getRandomInt } from "../helpers/number-util";
 
 import Asteroid from "../containers/asteroid-container";
-
-import Laser from "../containers/laser-container";
-
+import FirstScreen from "../components/firstscreen.js";
+import Game from "../components/game.js";
 
 export default class App extends React.Component {
 
     constructor() {
         super();
+
+        this.state = {
+            gameIsReady : false,
+            isMultiplayer : false
+        };
+
         generateAsteroids = this.generateAsteroids.bind(this);
-        gameIsReady = false;
     }
 
     prepareTheLaser = (e) => {
@@ -71,62 +76,29 @@ export default class App extends React.Component {
         return asteroids;
     }
 
-    starterButtons() {
-        return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'column',
-                width: 2,
-                alignItems: 'stretch',
-                transform: [{translate: [-1, 1, -5]}],
-            }}>
-
-                <View style={{margin: 0.1, height: 0.4}}>
-                    <Text style={{fontSize: 0.3, textAlign: 'center', color: "#ffffff"}}>Something Like Asterioids</Text>
-                </View>
-
-                <TouchableWithoutFeedback onPress={this.isMultiplayer(false)}>
-                    <View style={{ margin: 0.1, height: 0.3, borderWidth: 0.1, borderColor: "#ffffff" }}>
-                        <Text style={{fontSize: 0.2, textAlign: 'center', color: "#ffffff"}}>1 Player</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-
-                <TouchableWithoutFeedback onPress={this.isMultiplayer(true)}>
-                    <View style={{ margin: 0.1, height: 0.3, borderWidth: 0.1, borderColor: "#ffffff" }}>
-                        <Text style={{fontSize: 0.2, textAlign: 'center', color: "#ffffff"}}>2+ Players</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                
-             </View>
-        );
-    }
-
     isMultiplayer(bool) {
         if (bool) {
+            console.log('2 player');
             this.setState({
-                gameIsReady : true
+                gameIsReady : true,
+                isMultiplayer : true
             });
         } else {
+            console.log('1 player');
             this.setState({
-                gameIsReady : false
+                gameIsReady : true,
+                isMultiplayer : false
             });
         }
     }
 
-    startGame() {
-        this.generateAsteroids();
-    }
-
     render() {
-      return (
-        <View onInput={this.prepareTheLaser}>
-              <AmbientLight intensity={ 2.6 } />
-              <Pano source={asset('chess-world.jpg')}/>
-                {this.generateAsteroids()}
-              <Laser x={0} y={0} z={0}/>
-
-        </View>
-      );
+        let firstView = null;
+        if (this.state.gameIsReady) {
+          return <Game generateAsteroids={()=>this.generateAsteroids()}/>;
+        } else {
+          return <FirstScreen isMultiplayer={(bool) => this.isMultiplayer(bool)}/>
+        }
     }
 }
 
