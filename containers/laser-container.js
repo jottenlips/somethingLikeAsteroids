@@ -1,14 +1,18 @@
 import { connect } from "react-redux";
-import Asteroid from "../components/laser";
+import Laser from "../components/laser";
 
-import { updateAsteroidPosition } from "../redux/actions";
+import { updateLaserPosition, laserDidFire } from "../redux/actions";
 
 const mapStateToProps = state => ({
-
+    shouldFire: state.shouldFireLaser,
+    directionX: state.laserDirectionX,
+    directionY: state.laserDirectionY,
+    directionZ: state.laserDirectionZ
 });
 
 const mapDispatchToProps = dispatch => ({
-    updateAsteroidPosition: data => dispatch(updateLaserPosition(data))
+    updateLaserPosition: data => dispatch(updateLaserPosition(data)),
+    laserDidFire: () => dispatch(laserDidFire())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Laser);

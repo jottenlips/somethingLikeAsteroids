@@ -1,10 +1,13 @@
 import React from "react";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
-import { AmbientLight, Pano, asset, AppRegistry } from "react-vr";
+import { View, TouchableWithoutFeedback } from "react-native";
+import { AmbientLight, Pano, asset, AppRegistry,VrHeadModel } from "react-vr";
+
 
 import { randomSphereCoordinate, generateRandomSpeed, getRandomInt } from "../helpers/number-util";
 
 import Asteroid from "../containers/asteroid-container";
+
+import Laser from "../containers/laser-container";
 
 
 export default class App extends React.Component {
@@ -14,6 +17,28 @@ export default class App extends React.Component {
         generateAsteroids = this.generateAsteroids.bind(this);
         gameIsReady = false;
     }
+
+    prepareTheLaser = (e) => {
+
+        const { eventType } = e.nativeEvent.inputEvent;
+
+        const rotationOfHeadMatrix = VrHeadModel.rotationOfHeadMatrix();
+
+        const directionX = rotationOfHeadMatrix[1];
+        const directionY = rotationOfHeadMatrix[0];
+        const directionZ = rotationOfHeadMatrix[2];
+
+        if (eventType === "touchstart" || eventType === "keydown") {
+
+            console.log("laser prepared");
+            this.props.fireLaser({
+                x: directionX,
+                y: directionY,
+                z: directionZ
+            })
+        }
+    };
+
 
     generateAsteroids() {
         const numberOfAsteroids = Math.random() * 10;
@@ -32,6 +57,8 @@ export default class App extends React.Component {
                 size: generateRandomSpeed()
             })
         }
+
+
 
         asteroidValues.map((asteroid, index) => {
             asteroids.push(
@@ -91,11 +118,13 @@ export default class App extends React.Component {
     }
 
     render() {
-        return (
-        <View>
-          <AmbientLight intensity={ 2.6 }  />
-          <Pano source={asset('chess-world.jpg')}/>
-            {this.generateAsteroids()}
+      return (
+        <View onInput={this.prepareTheLaser}>
+              <AmbientLight intensity={ 2.6 } />
+              <Pano source={asset('chess-world.jpg')}/>
+                {this.generateAsteroids()}
+              <Laser x={0} y={0} z={0}/>
+
         </View>
       );
     }
