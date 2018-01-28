@@ -1,7 +1,8 @@
 import React from "React";
 import { Model, asset, Animated, VrHeadModel } from "react-vr";
-import { Easing } from "react-native";
+import {Easing, Image, Text} from "react-native";
 import { isNegative } from "../helpers/number-util"
+import GazeButton from "react-vr-gaze-button";
 
 const ASTEROID_ASSET_OBJ = "asteroid.obj";
 
@@ -19,7 +20,8 @@ export default class Asteroid extends React.Component {
             inverseZ: -this.props.z,
             inverseX: -this.props.x,
             inverseY: -this.props.y,
-            speed: this.props.speed
+            speed: this.props.speed,
+            isDestroyed: false
         };
         // console.log("asteroid props", this.props);
         this.rotate = this.rotate.bind(this);
@@ -141,15 +143,28 @@ export default class Asteroid extends React.Component {
         }
     };
 
-
     render () {
 
         return (
             <Animated.View style={ {transform: [{translate: [this.state.x, this.state.y, this.state.z]}]}}>
-                <Model source={{ obj: asset(ASTEROID_ASSET_OBJ) }}
-                       style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}],
-                           layoutOrigin: [0.5, 0.5] }}
-                       texture={asset("asteroid-texture.jpg")}/>
+                <GazeButton onClick={() => this.setState({isDestroyed: true})} duration={1000}>
+                {() => !this.state.isDestroyed ?
+                    (
+                        <Model source={{ obj: asset(ASTEROID_ASSET_OBJ) }}
+                               style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}],
+                                   layoutOrigin: [0.5, 0.5] }}
+                               texture={asset("asteroid-texture.jpg")}
+                        />
+                    )
+
+                    :
+
+                    (<Model source={{ obj: asset("laser.obj") }}
+                            style={{ position: 'absolute', transform: [{translate: [0, 0, -6]}, { scale: 0.1} ],
+                                layoutOrigin: [0.5, 0.5] }}
+                            texture={asset("laser.jpg")}
+                    />)}
+                </GazeButton>
             </Animated.View>
         )
     }
