@@ -11,7 +11,9 @@ clone this repo
 # Running local with express server
 
 ```npm install```
+
 ```npm run bundle```
+
 ```npm start```
 
 # Deploying to heroku
