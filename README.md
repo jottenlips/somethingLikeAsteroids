@@ -1,13 +1,13 @@
-#Running Local
+###Running Local
 Install node
 clone this repo 
-`npm install`
-`npm run start-local`
+```npm install```
+```npm run start-local```
 #Deploying to heroku
 Install heroku
-`npm install`
-`npm run bundle`
-`heroku create`
-`git add`
-`git commit`
-`git push heroku master`
+```npm install```
+```npm run bundle```
+```heroku create```
+```git add```
+```git commit```
+```git push heroku master```
