@@ -8,6 +8,12 @@ clone this repo
 
 ```npm run start-local```
 
+# Running local with express server
+
+```npm install```
+```npm run bundle```
+```npm start```
+
 # Deploying to heroku
 
 Install heroku cli
@@ -23,3 +29,4 @@ Install heroku cli
 ```git commit```
 
 ```git push heroku master```
+
