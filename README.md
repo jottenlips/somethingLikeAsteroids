@@ -1,4 +1,4 @@
-### Running Local
+# Running Local
 
 Install node
 
