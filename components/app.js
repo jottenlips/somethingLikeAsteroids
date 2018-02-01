@@ -129,7 +129,6 @@ export default class App extends React.Component {
               <Pano source={asset('chess-world.jpg')}/>
                 {this.generateAsteroids()}
               <Laser/>
-
         </View>
       );
     }

@@ -26,8 +26,6 @@ export default class laser extends React.Component {
             speed: 24
         };
         this.moveZ = this.moveZ.bind(this);
-        this.moveX = this.moveX.bind(this);
-        this.moveY = this.moveY.bind(this);
         this.fireLaser = this.fireLaser.bind(this);
 
     }
@@ -50,7 +48,6 @@ export default class laser extends React.Component {
         this.moveZ(2000, this.props.directionY, this.props.directionZ, this.props.directionX);
         // this.moveX(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
         // this.moveY(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
-        this.props.laserDidFire();
     };
 
     componentWillUnmount() {
@@ -119,8 +116,6 @@ export default class laser extends React.Component {
                 );
         });
     };
-
-
 
     // isOutOfBoundsOfSphere = (directionY, directionZ, directionX) => {
 
