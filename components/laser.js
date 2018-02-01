@@ -47,9 +47,9 @@ export default class laser extends React.Component {
     }
 
     fireLaser = () => {
-        this.moveZ(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
-        this.moveX(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
-        this.moveY(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
+        this.moveZ(2000, this.props.directionY, this.props.directionZ, this.props.directionX);
+        // this.moveX(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
+        // this.moveY(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
         this.props.laserDidFire();
     };
 
@@ -62,22 +62,18 @@ export default class laser extends React.Component {
 
     moveZ = (duration, directionY, directionZ, directionX, newZ) => {
 
-
         Animated.timing(this.state.z, {
-            toValue:  directionZ*100,
+            toValue: Math.cos(directionZ)*200,
             duration,
             easing: Easing.linear
         }).start(() => {
             this.setState(
                     () => ({
-                        z:  (Math.abs(newZ)>10) ? Animated.Value(0) : new Animated.Value(newZ--),
+                        z:  Animated.Value(this.state.z._value+(10*Math.cos(directionZ))),
                     }),
                     () => {
 
-
-
-                    	(Math.abs(newZ)>=10) ? this.moveZ(duration,directionY,directionZ,directionX,0) : this.moveZ(duration,directionY,directionZ,directionX,newZ--)
-                      	
+                    	this.moveZ(duration,directionY,directionZ,directionX,0);
                     }
                 );
         });
@@ -96,9 +92,6 @@ export default class laser extends React.Component {
                         x:  (Math.abs(newX)>10) ? Animated.Value(0) : new Animated.Value(newX--),
                     }),
                     () => {
-
-   
-
 
                     	(Math.abs(newX)>=10) ? this.moveX(duration,directionY,directionZ,directionX,0) : this.moveX(duration,directionY,directionZ,directionX,newX--)
                       	

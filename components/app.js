@@ -24,19 +24,19 @@ export default class App extends React.Component {
 
         const { eventType } = e.nativeEvent.inputEvent;
 
-        const rotationOfHeadMatrix = VrHeadModel.rotationOfHeadMatrix();
+        const rotationOfHeadMatrix = VrHeadModel.yawPitchRollInRadians();
 
         let directionX = rotationOfHeadMatrix[1];
         let directionY = rotationOfHeadMatrix[0];
         let directionZ = rotationOfHeadMatrix[2]; 
 
-        // if (eventType === "touchstart" || eventType === "keydown") {
+        if (eventType === "touchstart" || eventType === "keydown") {
             this.props.fireLaser({
-                x: directionX,
-                y: directionY,
-                z: directionZ
+                directionX: directionX,
+                directionY: directionY,
+                directionZ: directionZ
             })
-        // }
+        }
     };
 
     isNegative() {
