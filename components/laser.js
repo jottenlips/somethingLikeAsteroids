@@ -45,7 +45,7 @@ export default class laser extends React.Component {
     }
 
     fireLaser = () => {
-        this.moveZ(2000, this.props.directionY, this.props.directionZ, this.props.directionX);
+        this.moveZ(20000, this.props.directionY, this.props.directionZ, this.props.directionX);
         // this.moveX(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
         // this.moveY(200, this.props.directionY, this.props.directionZ, this.props.directionX, 0);
     };
@@ -59,6 +59,9 @@ export default class laser extends React.Component {
 
     moveZ = (duration, directionY, directionZ, directionX, newZ) => {
 
+        console.log(this.state.z._value);
+        console.log(Math.cos(directionZ)*-200);
+        console.log(directionZ);
         Animated.timing(this.state.z, {
             toValue: Math.cos(directionZ)*200,
             duration,
@@ -66,7 +69,7 @@ export default class laser extends React.Component {
         }).start(() => {
             this.setState(
                     () => ({
-                        z:  Animated.Value(this.state.z._value+(10*Math.cos(directionZ))),
+                        z:  Animated.Value(this.state.z-20),
                     }),
                     () => {
 
