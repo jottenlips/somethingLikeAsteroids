@@ -32,3 +32,4 @@ Install heroku cli
 
 ```git push heroku master```
 
+### For optimal experience use on mobile
