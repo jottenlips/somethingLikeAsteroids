@@ -32,4 +32,6 @@ Install heroku cli
 
 ```git push heroku master```
 
+https://somethinglikeasteroids.herokuapp.com/ (my deployed version)
+
 ### For optimal experience use on mobile
